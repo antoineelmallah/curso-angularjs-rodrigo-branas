@@ -1,21 +1,21 @@
 angular.module('listaTelefonica')     // Busca o modulo
-.controller('listaTelefonicaCtrl', function($scope, uppercaseFilter) { // Criação do controller. o $scope deve ser injetado
-    $scope.app = 'Lista Telefônica';
-    $scope.contatos = [
-        {nome: uppercaseFilter('Pedro'), telefone: '99998888', cor: 'yellow', operadora: {codigo: 1, nome: 'Oi'}, data: new Date()},
-        {nome: 'Ana', telefone: '99998877', cor: 'red', operadora: {codigo: 2, nome: 'Vivo'}, data: new Date()},
-        {nome: 'Maria', telefone: '99998866', cor: 'purple', operadora: {codigo: 3, nome: 'Tim'}, data: new Date()},
-        {nome: 'Antonio Carlos Roberto Cunha Souza da Silva', telefone: '99998855', cor: 'blue', operadora: {codigo: 1, nome: 'Oi'}, data: new Date()},
-    ];
-    $scope.operadoras = [
-        {codigo: 1, nome: 'Oi', preco: 2},
-        {codigo: 2, nome: 'Vivo', preco: .5},
-        {codigo: 3, nome: 'Tim', preco: 1.5},
-    ];
+.controller('listaTelefonicaCtrl', function($scope, contatosAPI, operadorasAPI, config, serialGenerator) { // Criação do controller. o $scope deve ser injetado
+    
+    $scope.app = config.nomeSistema;
+    $scope.contatos = [];
+    $scope.operadoras = [];
+
+    console.log(serialGenerator.generate());
 
     $scope.atributo = 'nome';
 
+    var init = function() {
+        $scope.contatos = contatosAPI.getContatos();
+        $scope.operadoras = operadorasAPI.getOperadoras();
+    };
+
     $scope.adicionarContato = function(contato) {
+        contato.serial = serialGenerator.generate();
         contato.data = new Date();
         $scope.contatos.push(contato);
         if ($scope.contato && $scope.contato.operadora && $scope.contato.operadora.codigo) {
@@ -46,4 +46,6 @@ angular.module('listaTelefonica')     // Busca o modulo
         $scope.atributo = atributo;
     };
 
+    init();
+    
 });
