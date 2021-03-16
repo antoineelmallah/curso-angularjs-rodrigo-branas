@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="listaTelefonica">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista telefônica</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+    <style>
+        .jumbotron {
+            width: 400px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+        }
+        table {
+            margin-top: 20px;
+        }
+        tr.selecionado {
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body ng-controller="listaTelefonicaCtrl"> <!-- A view é o elemento onde colocamos o ng-controller -->
+
+    <div class="jumbotron">
+        
+        <h4>{{ app }}</h4>
+        
+        <table class="table table-striped" ng-if="contatos.length">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Operadora</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-class="{'selecionado': contato.selecionado}" ng-repeat="contato in contatos">
+                    <td><input type="checkbox" ng-model="contato.selecionado"></td>
+                    <td>{{ contato.nome }}</td>
+                    <td>{{ contato.telefone }}</td>
+                    <td>{{ contato.operadora.nome }}</td>
+                    <th><div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div></th>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="!contatos.length">Nenhum contato cadastrado!</div>
+
+        <!-- Para a validação funcionar, precisa da tag form e do name dos campos -->
+        <form name="contatoForm">
+            <div>
+                <input class="form-control" 
+                    type="text" 
+                    ng-model="contato.nome" 
+                    name="nome" 
+                    placeholder="Nome" 
+                    ng-required="true"
+                    ng-minlength="5">
+            </div>
+            <div>
+                <input class="form-control" 
+                    type="text" 
+                    ng-model="contato.telefone" 
+                    name="telefone" 
+                    placeholder="Telefone" 
+                    ng-required="true"
+                    ng-pattern="/^\d{4,5}-\d{4}$/">
+            </div>
+            <div>
+                <select class="form-control" 
+                    name="operadora"
+                    ng-model="contato.operadora.codigo" 
+                    ng-options="operadora.codigo as operadora.nome for operadora in operadoras"
+                    ng-required="true">
+                    <option value="">Selecione uma operadora</option>
+                </select>
+            </div>
+        </form>
+        <div class="alert alert-danger" ng-show="contatoForm.nome.$dirty && contatoForm.nome.$error.required">Preencha o nome!</div>
+        <div class="alert alert-danger" ng-show="contatoForm.nome.$error.minlength">O campo nome deve ter mais de 4 caracteres!</div>
+        <div class="alert alert-danger" ng-show="contatoForm.telefone.$dirty && contatoForm.telefone.$error.required">Preencha o telefone!</div>
+        <div class="alert alert-danger" ng-show="contatoForm.telefone.$error.pattern">Formato do telefone inválido!</div>
+        <div class="alert alert-danger" ng-show="contatoForm.operadora.$dirty && contatoForm.operadora.$invalid">Preencha a operadora!</div>
+        <div>
+            <button class="btn btn-primary btn-block" 
+                ng-click="adicionarContato(contato)" 
+                ng-disabled="!contatoForm.$valid">Adicionar</button>
+            <button class="btn btn-danger btn-block"
+                ng-click="apagarSelecionados(contatos)"
+                ng-show="algumSelecionado(contatos)">Apagar selecionados</button>
+        </div>
+    </div>
+    <div ng-include="'footer.html'"></div>
+    
+    <script src="lib/angular-1.8.2/angular.min.js"></script>
+    <script>
+        angular.module('listaTelefonica', []); // Cria o modulo
+        angular.module('listaTelefonica')     // Busca o modulo
+            .controller('listaTelefonicaCtrl', function($scope) { // Criação do controller. o $scope deve ser injetado
+                $scope.app = 'Lista Telefônica';
+                $scope.contatos = [
+                    {nome: 'Pedro', telefone: '99998888', cor: 'yellow'},
+                    {nome: 'Ana', telefone: '99998877', cor: 'red'},
+                    {nome: 'Maria', telefone: '99998866', cor: 'purple'},
+                ];
+                $scope.operadoras = [
+                    {codigo: 1, nome: 'Oi'},
+                    {codigo: 2, nome: 'Vivo'},
+                    {codigo: 3, nome: 'Tim'},
+                ];
+
+                $scope.adicionarContato = function(contato) {
+                    $scope.contatos.push(contato);
+                    if ($scope.contato && $scope.contato.operadora && $scope.contato.operadora.codigo) {
+                        $scope.contato.operadora = $scope.operadoras.find(function(o) {
+                            return o.codigo === $scope.contato.operadora.codigo;
+                        });
+                    }
+                    delete $scope.contato;
+                    $scope.contatoForm.$setPristine();
+                };
+
+                $scope.apagarSelecionados = function(contatos) {
+                    $scope.contatos = contatos.filter(function(c) {
+                        return !c.selecionado;
+                    });
+                };
+
+                $scope.algumSelecionado = function(contatos) {
+                    // some: Se um dos contatos estiver selecionado, retorna true
+                    return contatos.some(function(c) { 
+                        return c.selecionado; 
+                    });
+                };
+
+            });
+    </script>
+</body>
+</html>
