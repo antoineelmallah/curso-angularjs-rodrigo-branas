@@ -28,6 +28,8 @@
         
         <h4>{{ app }}</h4>
         
+        <input type="text" class="form-control" ng-model="filtro" placeholder="O que você está buscando?">
+
         <table class="table table-striped" ng-if="contatos.length">
             <thead>
                 <tr>
@@ -40,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-class="{'selecionado': contato.selecionado}" ng-repeat="contato in contatos">
+                <tr ng-class="{'selecionado': contato.selecionado}" ng-repeat="contato in contatos | filter: { nome: filtro }">
                     <td><input type="checkbox" ng-model="contato.selecionado"></td>
                     <td>{{ contato.nome | uppercase }}</td>
                     <td>{{ contato.telefone }}</td>
