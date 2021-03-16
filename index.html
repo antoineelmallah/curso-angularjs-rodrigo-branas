@@ -44,7 +44,7 @@
             <tbody>
                 <tr ng-class="{'selecionado': contato.selecionado}" ng-repeat="contato in contatos | filter: { nome: filtro } | orderBy: atributo : sentidoOrdenacao">
                     <td><input type="checkbox" ng-model="contato.selecionado"></td>
-                    <td>{{ contato.nome | uppercase | limitTo: 10 }}</td>
+                    <td>{{ contato.nome }}</td>
                     <td>{{ contato.telefone }}</td>
                     <td>{{ contato.operadora.nome | lowercase }}</td>
                     <td>{{ contato.data | date: 'EEEE, dd/MM/yyyy' }}</td>
@@ -117,10 +117,10 @@
     <script>
         angular.module('listaTelefonica', ['ngMessages']); // Cria o modulo
         angular.module('listaTelefonica')     // Busca o modulo
-            .controller('listaTelefonicaCtrl', function($scope) { // Criação do controller. o $scope deve ser injetado
+            .controller('listaTelefonicaCtrl', function($scope, $filter) { // Criação do controller. o $scope deve ser injetado
                 $scope.app = 'Lista Telefônica';
                 $scope.contatos = [
-                    {nome: 'Pedro', telefone: '99998888', cor: 'yellow', operadora: {codigo: 1, nome: 'Oi'}, data: new Date()},
+                    {nome: $filter('uppercase')('Pedro'), telefone: '99998888', cor: 'yellow', operadora: {codigo: 1, nome: 'Oi'}, data: new Date()},
                     {nome: 'Ana', telefone: '99998877', cor: 'red', operadora: {codigo: 2, nome: 'Vivo'}, data: new Date()},
                     {nome: 'Maria', telefone: '99998866', cor: 'purple', operadora: {codigo: 3, nome: 'Tim'}, data: new Date()},
                     {nome: 'Antonio Carlos Roberto Cunha Souza da Silva', telefone: '99998855', cor: 'blue', operadora: {codigo: 1, nome: 'Oi'}, data: new Date()},
