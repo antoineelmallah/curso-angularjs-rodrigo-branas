@@ -44,10 +44,10 @@
             <tbody>
                 <tr ng-class="{'selecionado': contato.selecionado}" ng-repeat="contato in contatos | filter: { nome: filtro } | orderBy: atributo : sentidoOrdenacao">
                     <td><input type="checkbox" ng-model="contato.selecionado"></td>
-                    <td>{{ contato.nome | uppercase }}</td>
+                    <td>{{ contato.nome | uppercase | limitTo: 10 }}</td>
                     <td>{{ contato.telefone }}</td>
                     <td>{{ contato.operadora.nome | lowercase }}</td>
-                    <td>{{ contato.data | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ contato.data | date: 'EEEE, dd/MM/yyyy' }}</td>
                     <td><div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div></td>
                 </tr>
             </tbody>
@@ -78,7 +78,7 @@
                 <select class="form-control" 
                     name="operadora"
                     ng-model="contato.operadora.codigo" 
-                    ng-options="operadora.codigo as operadora.nome for operadora in operadoras | orderBy: 'nome'"
+                    ng-options="operadora.codigo as operadora.nome + ' (' + (operadora.preco | currency) +  ')' for operadora in operadoras | orderBy: 'nome'"
                     ng-required="true">
                     <option value="">Selecione uma operadora</option>
                 </select>
@@ -112,6 +112,7 @@
     <div ng-include="'footer.html'"></div>
     
     <script src="lib/angular-1.8.2/angular.min.js"></script>
+    <script src="lib/angular-1.8.2/i18n/angular-locale_pt-br.js"></script>
     <script src="lib/angular-1.8.2/angular-messages.min.js"></script>
     <script>
         angular.module('listaTelefonica', ['ngMessages']); // Cria o modulo
@@ -122,11 +123,12 @@
                     {nome: 'Pedro', telefone: '99998888', cor: 'yellow', operadora: {codigo: 1, nome: 'Oi'}, data: new Date()},
                     {nome: 'Ana', telefone: '99998877', cor: 'red', operadora: {codigo: 2, nome: 'Vivo'}, data: new Date()},
                     {nome: 'Maria', telefone: '99998866', cor: 'purple', operadora: {codigo: 3, nome: 'Tim'}, data: new Date()},
+                    {nome: 'Antonio Carlos Roberto Cunha Souza da Silva', telefone: '99998855', cor: 'blue', operadora: {codigo: 1, nome: 'Oi'}, data: new Date()},
                 ];
                 $scope.operadoras = [
-                    {codigo: 1, nome: 'Oi'},
-                    {codigo: 2, nome: 'Vivo'},
-                    {codigo: 3, nome: 'Tim'},
+                    {codigo: 1, nome: 'Oi', preco: 2},
+                    {codigo: 2, nome: 'Vivo', preco: .5},
+                    {codigo: 3, nome: 'Tim', preco: 1.5},
                 ];
 
                 $scope.atributo = 'nome';
