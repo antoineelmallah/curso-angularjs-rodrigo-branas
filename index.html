@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
     <style>
         .jumbotron {
-            width: 400px;
+            width: 800px;
             text-align: center;
             margin-left: auto;
             margin-right: auto;
@@ -35,16 +35,18 @@
                     <th>Nome</th>
                     <th>Telefone</th>
                     <th>Operadora</th>
+                    <th>Data</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-class="{'selecionado': contato.selecionado}" ng-repeat="contato in contatos">
                     <td><input type="checkbox" ng-model="contato.selecionado"></td>
-                    <td>{{ contato.nome }}</td>
+                    <td>{{ contato.nome | uppercase }}</td>
                     <td>{{ contato.telefone }}</td>
-                    <td>{{ contato.operadora.nome }}</td>
-                    <th><div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div></th>
+                    <td>{{ contato.operadora.nome | lowercase }}</td>
+                    <td>{{ contato.data | date: 'dd/MM/yyyy' }}</td>
+                    <td><div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div></td>
                 </tr>
             </tbody>
         </table>
@@ -115,9 +117,9 @@
             .controller('listaTelefonicaCtrl', function($scope) { // Criação do controller. o $scope deve ser injetado
                 $scope.app = 'Lista Telefônica';
                 $scope.contatos = [
-                    {nome: 'Pedro', telefone: '99998888', cor: 'yellow'},
-                    {nome: 'Ana', telefone: '99998877', cor: 'red'},
-                    {nome: 'Maria', telefone: '99998866', cor: 'purple'},
+                    {nome: 'Pedro', telefone: '99998888', cor: 'yellow', operadora: {codigo: 1, nome: 'Oi'}, data: new Date()},
+                    {nome: 'Ana', telefone: '99998877', cor: 'red', operadora: {codigo: 2, nome: 'Vivo'}, data: new Date()},
+                    {nome: 'Maria', telefone: '99998866', cor: 'purple', operadora: {codigo: 3, nome: 'Tim'}, data: new Date()},
                 ];
                 $scope.operadoras = [
                     {codigo: 1, nome: 'Oi'},
@@ -126,6 +128,7 @@
                 ];
 
                 $scope.adicionarContato = function(contato) {
+                    contato.data = new Date();
                     $scope.contatos.push(contato);
                     if ($scope.contato && $scope.contato.operadora && $scope.contato.operadora.codigo) {
                         $scope.contato.operadora = $scope.operadoras.find(function(o) {
