@@ -27,3 +27,7 @@ app.all('*', function(req, res, next) {
 - Por padrão, uma diretiva compartilha o mesmo scope de onde é utilizada. Para aumentar seu potencial de reuso, podemos isolar seu scope, passando os dados necessários por parâmetro.
 
 - IMPORTANTE: PARA SABER EM QUAL SCOPE ESTAMOS, PODEMOS COLOCAR ``` {{ $id }} ``` NO ARQUIVO HTML ONDE A DIRETIVA ESTÁ INSERIDA E OUTRO DENTRO DO HTML DA PRÓPRIA DIRETIVA.
+
+## Módulos:
+
+- No AngularJS, módulos são coleções de componentes (controllers, diretivas, filters, services, etc).

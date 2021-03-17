@@ -1,1 +1,1 @@
-angular.module('listaTelefonica', ['ngMessages']); // Cria o modulo
+angular.module('listaTelefonica', ['ngMessages', 'serialGenerator']); // Cria o modulo
