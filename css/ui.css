@@ -14,5 +14,34 @@
 
 .ui-alert-message {
     color: #af4341;
+}
+
+.ui-accordion-title {
+    background-color: darkslategrey;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 15px;
+}
+
+.ui-accordion-title:hover {
+    cursor: pointer;
+}
+
+.ui-accordion-title-closed {
+    border-radius: 5px;
 
 }
+
+.ui-accordion-title-opened {
+    border-radius: 5px 5px 0 0;
+}
+
+.ui-accordion-content {
+    background-color: white;
+    border-radius: 0 0 5px 5px;
+    border-color: darkslategrey;
+    border-width: 1px;
+    border-style: solid;
+}
+
