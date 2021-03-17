@@ -60,6 +60,15 @@
                     ng-required="true"
                     ng-minlength="5">
             </div>
+            {{ contato.data }}
+            <div>
+                <input class="form-control" 
+                type="text" 
+                ng-model="contato.data" 
+                name="data" 
+                placeholder="Data" 
+                ui-date>
+            </div>
             <div>
                 <input class="form-control" 
                     type="text" 
@@ -115,6 +124,7 @@
     <script src="js/controllers/listaTelefonicaCtrl.js"></script>
 
     <script src="js/directives/uiAlertDirective.js"></script>
+    <script src="js/directives/uiDateDirective.js"></script>
     
     <script src="js/services/contatosAPIService.js"></script>
     <script src="js/services/operadorasAPIService.js"></script>
