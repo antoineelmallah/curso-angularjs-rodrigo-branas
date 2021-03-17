@@ -2,9 +2,15 @@ angular.module('listaTelefonica').config(function($routeProvider, $locationProvi
 
     $locationProvider.hashPrefix('');
 
-    $routeProvider.when('/contatos', {
-        templateUrl: 'view/contatos.html',
-        controller: 'listaTelefonicaCtrl'
-    });
+    $routeProvider
+        .when('/contatos', {
+            templateUrl: 'view/contatos.html',
+            controller: 'listaTelefonicaCtrl'
+        })
+        .when('/novoContato', {
+            templateUrl: 'view/novoContato.html',
+            controller: 'novoContatoCtrl'
+        })
+        .otherwise({redirectTo: '/contatos'});
 
 });
