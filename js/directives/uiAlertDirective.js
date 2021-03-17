@@ -17,7 +17,11 @@ angular.module('listaTelefonica').directive('uiAlert', function() {
         à direita ao mapeamento do atributo. */
         scope: {
             title: '@', // O '@' seta a string definida no parâmetro title para a propriedade title do scope da diretiva.
-            message: '=', // O '=' cria um vinculo bi-direcional entre o parâmetro message e a propriedade message do scope da diretiva.
-        }
+        //    message: '=', // O '=' cria um vinculo bi-direcional entre o parâmetro message e a propriedade message do scope da diretiva.
+        },
+        /*
+        Se for true, recupera o que foi preenchido no innerHtml do elemento da diretiva. Para acessar o valor definido no innerHtml, no
+        template da diretiva, usamos o ng-transclude.*/
+        transclude: true,
     };
 });

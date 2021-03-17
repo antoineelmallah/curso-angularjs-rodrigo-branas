@@ -17,7 +17,9 @@
 
         <p> Escopo externo à diretiva: {{ $id }} </p>
 
-        <div ui-alert title="Aconteceu um problema." message="error"></div>
+        <div ui-alert title="Aconteceu um problema.">
+            {{ error }}
+        </div>
         
         <input type="text" class="form-control" ng-model="filtro" placeholder="O que você está buscando?">
 
