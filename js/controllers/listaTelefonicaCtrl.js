@@ -1,6 +1,8 @@
 angular.module('listaTelefonica')     // Busca o modulo
 .controller('listaTelefonicaCtrl', function($scope, contatosAPI, operadorasAPI, config, serialGenerator) { // Criação do controller. o $scope deve ser injetado
     
+    $scope.error = 'Ocorreu um erro!!!';
+
     $scope.app = config.nomeSistema;
     $scope.contatos = [];
     $scope.operadoras = [];
