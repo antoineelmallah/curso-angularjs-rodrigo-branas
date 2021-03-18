@@ -31,3 +31,7 @@ app.all('*', function(req, res, next) {
 ## Módulos:
 
 - No AngularJS, módulos são coleções de componentes (controllers, diretivas, filters, services, etc).
+
+## $templateCache:
+
+- As views são carregadas para o $templateCache da primeira vez que são invocadas. Depois disso, são carregadas do cache.

@@ -1,17 +1,15 @@
-angular.module('listaTelefonica')     // Busca o modulo
-.controller('novoContatoCtrl', function($scope, $location, operadorasAPI, config, serialGenerator) { // Criação do controller. o $scope deve ser injetado
+angular.module('listaTelefonica')     
+// Injetando o objeto 'operadoras' recuperado pelo 'resolve' do 'routeConfig'.
+.controller('novoContatoCtrl', function($scope, $location, config, serialGenerator, operadoras) { 
     
     $scope.error = 'Ocorreu um erro!!!';
 
     $scope.app = config.nomeSistema;
     $scope.contatos = [];
-    $scope.operadoras = [];
+
+    $scope.operadoras = operadoras;
 
     $scope.atributo = 'nome';
-
-    var init = function() {
-        $scope.operadoras = operadorasAPI.getOperadoras();
-    };
 
     $scope.adicionarContato = function(contato) {
         contato.serial = serialGenerator.generate();
@@ -27,6 +25,4 @@ angular.module('listaTelefonica')     // Busca o modulo
         $location.path('/contatos');
     };
 
-    init();
-    
 });

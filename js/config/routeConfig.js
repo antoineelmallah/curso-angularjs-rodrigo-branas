@@ -9,7 +9,14 @@ angular.module('listaTelefonica').config(function($routeProvider, $locationProvi
         })
         .when('/novoContato', {
             templateUrl: 'view/novoContato.html',
-            controller: 'novoContatoCtrl'
+            controller: 'novoContatoCtrl',
+            // Podemos inicializar dependências do controller no resolve. O objeto 'operadoras' poderá ser injetado
+            // no controller e estará populado. 
+            resolve: {
+                operadoras: function(operadorasAPI) {
+                    return operadorasAPI.getOperadoras();
+                }
+            }
         })
         .otherwise({redirectTo: '/contatos'});
 
