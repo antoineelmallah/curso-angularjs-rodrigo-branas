@@ -12,3 +12,18 @@
     </table>
     <a href="#/contatos" class="btn btn-primary btn-block">Voltar</a>
 </div>
+
+<div class="jumbotron">
+    <table class="table">
+        <th>
+            <td></td>
+            <td>Id</td>
+            <td>Title</td>
+        </th>
+        <tr ng-repeat="item in todos">
+            <td><input type="checkbox" ng-model="item.completed"></td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+        </tr>
+    </table>
+</div>
