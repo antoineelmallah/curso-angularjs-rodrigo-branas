@@ -6,8 +6,6 @@ angular.module('listaTelefonica')     // Busca o modulo
     $scope.app = config.nomeSistema;
     $scope.contatos = contatos;
 
-    console.log(serialGenerator.generate());
-
     $scope.atributo = 'nome';
 
     $scope.apagarSelecionados = function(contatos) {
@@ -28,5 +26,7 @@ angular.module('listaTelefonica')     // Busca o modulo
             $scope.sentidoOrdenacao = !$scope.sentidoOrdenacao;
         $scope.atributo = atributo;
     };
+
+    console.log(serialGenerator.generate());
 
 });

@@ -23,6 +23,10 @@ angular.module('listaTelefonica').config(function($routeProvider, $locationProvi
                 }
             }
         })
+        .when('/detalhesContato/:id', {
+            templateUrl: 'view/detalhesContato.html',
+            controller: 'detalhesContatoCtrl'
+        })
         .otherwise({redirectTo: '/contatos'});
 
 });
