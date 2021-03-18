@@ -1,7 +1,7 @@
 angular.module('listaTelefonica').factory('jsonplaceholderAPI', function($http) {
 
     var _todos = function() {
-        return $http.get('https://jsonplaceholder.typicode.com/todosa');
+        return $http.get('https://jsonplaceholder.typicode.com/todos');
     };
 
     var _byId = function(id) {

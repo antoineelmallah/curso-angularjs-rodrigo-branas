@@ -11,9 +11,14 @@
 </head>
 <body> <!-- A view é o elemento onde colocamos o ng-controller -->
 
-    <div ng-view></div>
+    <div class="jumbotron" ng-show="loading">
+        <h5>Carregando. Por favor, aguarde...</h5>
+    </div>
 
-    <div ng-include="'view/footer.html'"></div>
+    <div ng-hide="loading">
+        <div ng-view></div>
+        <div ng-include="'view/footer.html'"></div>
+    </div>
     
     <script src="lib/angular-1.8.2/angular.min.js"></script>
     <script src="lib/angular-1.8.2/i18n/angular-locale_pt-br.js"></script>
@@ -43,6 +48,7 @@
 
     <script src="js/interceptors/timestampinterceptor.js"></script>
     <script src="js/interceptors/errorIntercaptor.js"></script>
+    <script src="js/interceptors/loadingInterceptor.js"></script>
 
 </body>
 </html>
