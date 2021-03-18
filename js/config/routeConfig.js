@@ -5,7 +5,12 @@ angular.module('listaTelefonica').config(function($routeProvider, $locationProvi
     $routeProvider
         .when('/contatos', {
             templateUrl: 'view/contatos.html',
-            controller: 'listaTelefonicaCtrl'
+            controller: 'listaTelefonicaCtrl',
+            resolve: {
+                contatos: function(contatosAPI) {
+                    return contatosAPI.getContatos();
+                }
+            }
         })
         .when('/novoContato', {
             templateUrl: 'view/novoContato.html',
