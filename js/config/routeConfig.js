@@ -25,7 +25,13 @@ angular.module('listaTelefonica').config(function($routeProvider, $locationProvi
         })
         .when('/detalhesContato/:id', {
             templateUrl: 'view/detalhesContato.html',
-            controller: 'detalhesContatoCtrl'
+            controller: 'detalhesContatoCtrl',
+            resolve: {
+                contato: function(contatosAPI, $route) {
+                    var id = parseInt($route.current.params.id);
+                    return contatosAPI.getContato(id);
+                }
+            }
         })
         .otherwise({redirectTo: '/contatos'});
 
