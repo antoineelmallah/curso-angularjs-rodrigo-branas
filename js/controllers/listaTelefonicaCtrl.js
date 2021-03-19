@@ -12,11 +12,13 @@ angular.module('listaTelefonica')     // Busca o modulo
         $scope.contatos = contatos.filter(function(c) {
             return !c.selecionado;
         });
+        $scope.hasContatoSelecionado = false;
     };
 
-    $scope.algumSelecionado = function(contatos) {
-        // some: Se um dos contatos estiver selecionado, retorna true
-        return contatos.some(function(c) { 
+    var contador = 0;
+    $scope.verificarContatoSelecionado = function(contatos) {
+        console.log(contador++);
+        $scope.hasContatoSelecionado = contatos.some(function(c) { 
             return c.selecionado; 
         });
     };
@@ -25,6 +27,22 @@ angular.module('listaTelefonica')     // Busca o modulo
         if (atributo === $scope.atributo)
             $scope.sentidoOrdenacao = !$scope.sentidoOrdenacao;
         $scope.atributo = atributo;
+    };
+
+    /* Substitui a referência da variável $scope.contatos por uma cópia dela para testar 
+    a performance da renderização dos dados na tabela, sem e com uso do 'track by' no 
+    ng-repeat. Sem usar o track by, todos os itens da tabela são renderizados novamente.
+    com o track by, nenhum item é renderizado novamente.
+    */
+    $scope.reset = function() {
+        $scope.contatos = angular.copy($scope.contatos);
+    };
+    
+    /* Altera somente o primeiro contato para garantir que usando o track by ele continuará
+    sendo renderizado na lista. */
+    $scope.alterarOPrimeiro = function() {
+        $scope.contatos = angular.copy($scope.contatos);
+        $scope.contatos[0].nome = 'aaaaaaaa';
     };
 
     console.log(serialGenerator.generate());

@@ -1,6 +1,14 @@
 <div class="jumbotron">
     <!-- Para a validação funcionar, precisa da tag form e do name dos campos -->
     <form name="contatoForm">
+        {{ contato }}
+        <select class="form-control" ng-model="contato.tipo">
+            <option value="">Selecione o tipo</option>
+            <option value="PF">Pessoa Física</option>
+            <option value="PJ">Pessoa Jurídica</option>
+        </select>
+        <input type="text" class="form-control" ng-model="contato.cpf" ng-if="contato.tipo === 'PF'" placeholder="CPF">
+        <input type="text" class="form-control" ng-model="contato.cnpj" ng-if="contato.tipo === 'PJ'" placeholder="CNPJ">
         <div>
             <input class="form-control" 
                 type="text" 

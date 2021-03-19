@@ -1,6 +1,10 @@
+<!-- Mesmo com ng-show="true", o elemento da imagem continua no DOM. Ele só está com "display: none". Usando o ng-if="false",
+o elemento não estaria presente, mas a imagem continua sendo carregada pelo browser. Para não carregar a imagem, temos que 
+substituir o src do elemento img por ng-src. -->
+<img ng-src="img/dog.jpeg" ng-if="false">
 <div class="jumbotron">
         
-    <h4>{{ app }}</h4>
+    <h4>{{ app | upper }}</h4>
 
     <ui-accordions>
         <ui-accordion title="Accordion 1">
@@ -17,7 +21,15 @@
         {{ error }}
     </div>
     
-    <input type="text" class="form-control" ng-model="filtro" placeholder="O que você está buscando?">
+    <!-- O ng-model-options modifica o comportamento do ng-model. No caso do filtro, para fins de performance. 
+    O updateOn indica que eventos irão disparar a atualização do model. O debounce indica quantos milissegundos
+    irão decorrer antes de cada evento ser disparado. O 'default' é o comportamento padrão de notificação do 
+    model feito pelo AngularJs. -->
+    <input type="text" 
+        class="form-control" 
+        ng-model="filtro" 
+        ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" 
+        placeholder="O que você está buscando?">
 
     <table class="table table-striped" ng-if="contatos.length">
         <thead>
@@ -32,22 +44,31 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-class="{'selecionado': contato.selecionado}" ng-repeat="contato in contatos | filter: { nome: filtro } | orderBy: atributo : sentidoOrdenacao">
-                <td><input type="checkbox" ng-model="contato.selecionado"></td>
-                <td>{{ contato.serial }}</td>
+            <!-- Incluir o :: antes da expressão promove o 'one time binding'. Após a tela carregas, os watchers são removidos -->
+            <!-- Quando colocamos o 'track by contato.id' no ng-repeat, o angular só atualizará os itens da lista que realmente
+            foram alterados. -->
+            <tr ng-class="{'selecionado': contato.selecionado}" 
+            ng-repeat="contato in contatos | filter: { nome: filtro } | orderBy: atributo : sentidoOrdenacao track by contato.id">
+                <td><input type="checkbox" ng-model="contato.selecionado" ng-change="verificarContatoSelecionado(contatos)"></td>
+                <td>{{ ::contato.serial }}</td>
                 <td><a href="#/detalhesContato/{{ contato.id }}">{{ contato.nome }}</a></td>
-                <td>{{ contato.telefone }}</td>
-                <td>{{ contato.operadora.nome | lowercase }}</td>
-                <td>{{ contato.data | date: 'EEEE, dd/MM/yyyy' }}</td>
+                <td>{{ ::contato.telefone }}</td>
+                <td>{{ ::contato.operadora.nome | upper }}</td>
+                <td>{{ ::contato.data | date: 'EEEE, dd/MM/yyyy' }}</td>
                 <td><div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div></td>
             </tr>
         </tbody>
     </table>
     <div ng-if="!contatos.length">Nenhum contato cadastrado!</div>
 
+    <!-- 'Reset' e 'Alterar o primeiro contato' para testar o uso ou não do 'track by' e a diferença na performance. Para testar,
+    inspecione a tabela, no chrome e veja o que é renderizado novamente quando clicamos nos botões. -->
+    <button class="btn btn-primary btn-block" ng-click="reset()">Reset</button>
+    <button class="btn btn-primary btn-block" ng-click="alterarOPrimeiro()">Alterar o primeiro contato.</button>
+
     <a href="#/novoContato" class="btn btn-primary btn-block">Novo contato</a>
 
     <button class="btn btn-danger btn-block"
         ng-click="apagarSelecionados(contatos)"
-        ng-show="algumSelecionado(contatos)">Apagar selecionados</button>
+        ng-show="hasContatoSelecionado">Apagar selecionados</button>
 </div>
